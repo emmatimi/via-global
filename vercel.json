@@ -13,11 +13,7 @@
       "includeFiles": "lib/**"
     },
     "api/program.ts": {
-      "includeFiles": [
-        "dist/**",
-        "lib/**",
-        "firebase-applet-config.json"
-      ]
+      "includeFiles": "{dist/**,lib/**,firebase-applet-config.json}"
     }
   },
   "routes": [
