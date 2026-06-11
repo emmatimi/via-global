@@ -1,0 +1,86 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Reuseable global helpers
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn();
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128;
+    }
+
+    // 2. Programs Collection
+    match /programs/{programId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // 3. Teachings/Messages Collection
+    match /messages/{messageId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // 4. Attendee Registrations Collection
+    match /registrations/{registrationId} {
+      allow read: if isAdmin();
+      allow create: if true;
+      allow update, delete: if isAdmin();
+    }
+
+    // 5. System Settings Collection
+    match /settings/{settingsId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // 6. Email Broadcasts Collection
+    match /broadcasts/{broadcastId} {
+      allow read, write: if isAdmin();
+    }
+
+    // 7. Devotional Quotes Collection
+    match /quotes/{quoteId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // 8. New Converts Collection
+    match /converts/{convertId} {
+      allow read: if isAdmin();
+      allow create: if true;
+      allow update, delete: if isAdmin();
+    }
+
+    // 9. Calendar Events Collection
+    match /events/{eventId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // 10. Community Testimonials Collection
+    match /testimonials/{testimonialId} {
+      allow create: if true;
+      allow read: if true;
+      allow update, delete: if isAdmin();
+    }
+
+    // 11. Teaching Comments Collection
+    match /comments/{commentId} {
+      allow read, create: if true;
+      allow update, delete: if isAdmin();
+    }
+
+    // 12. Gallery Collection
+    match /gallery/{galleryItemId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+  }
+}

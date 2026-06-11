@@ -1,0 +1,203 @@
+{
+  "entities": {
+    "Program": {
+      "title": "Program",
+      "description": "Ministry flagship programs like Fan to Flame, Believers Meeting",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "subtitle": { "type": "string" },
+        "description": { "type": "string" },
+        "image": { "type": "string" },
+        "date": { "type": "string" },
+        "venue": { "type": "string" },
+        "regs": { "type": "number" },
+        "isDone": { "type": "boolean" }
+      },
+      "required": ["title", "subtitle", "description", "image", "date"]
+    },
+    "Message": {
+      "title": "Message",
+      "description": "Recorded teachings, articles, videos content",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "speaker": { "type": "string" },
+        "date": { "type": "string" },
+        "thumbnail": { "type": "string" },
+        "duration": { "type": "string" },
+        "type": { "type": "string", "enum": ["video", "article"] },
+        "youtubeLink": { "type": "string" },
+        "content": { "type": "string" }
+      },
+      "required": ["title", "speaker", "date", "thumbnail", "type"]
+    },
+    "Registration": {
+      "title": "Registration",
+      "description": "Registration for programs",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "fullName": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "location": { "type": "string" },
+        "programId": { "type": "string" },
+        "status": { "type": "string", "enum": ["Confirmed", "Pending"] },
+        "dateAdded": { "type": "string" }
+      },
+      "required": ["fullName", "email", "phone", "location", "programId", "status", "dateAdded"]
+    },
+    "SystemSettings": {
+      "title": "SystemSettings",
+      "description": "Contact info, address and general support settings",
+      "type": "object",
+      "properties": {
+        "orgName": { "type": "string" },
+        "supportEmail": { "type": "string" },
+        "supportPhone": { "type": "string" },
+        "supportAddress": { "type": "string" }
+      },
+      "required": ["orgName", "supportEmail", "supportPhone", "supportAddress"]
+    },
+    "Broadcast": {
+      "title": "Broadcast",
+      "description": "Sent email notifications, newsletters & announcements broadcasts",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "subject": { "type": "string" },
+        "message": { "type": "string" },
+        "date": { "type": "string" }
+      },
+      "required": ["subject", "message", "date"]
+    },
+    "Quote": {
+      "title": "Quote",
+      "description": "Devotional quotes shown on the home page",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "text": { "type": "string" },
+        "author": { "type": "string" }
+      },
+      "required": ["text", "author"]
+    },
+    "Convert": {
+      "title": "Convert",
+      "description": "New converts who accepted Christ",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "fullName": { "type": "string" },
+        "email": { "type": "string" },
+        "dateAdded": { "type": "string" }
+      },
+      "required": ["fullName", "email", "dateAdded"]
+    },
+    "Event": {
+      "title": "Event",
+      "description": "Upcoming general calendar events and prayer watches",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "date": { "type": "string" },
+        "time": { "type": "string" },
+        "location": { "type": "string" },
+        "type": { "type": "string" },
+        "joinLink": { "type": "string" }
+      },
+      "required": ["title", "date", "time", "location", "type", "joinLink"]
+    },
+    "Testimonial": {
+      "title": "Testimonial",
+      "description": "User testimonies submitted and reviewed by admin",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "quote": { "type": "string" },
+        "role": { "type": "string" },
+        "avatar": { "type": "string" },
+        "approved": { "type": "boolean" }
+      },
+      "required": ["name", "quote", "approved"]
+    },
+    "Comment": {
+      "title": "Comment",
+      "description": "Comments on teachings and messages",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "teachingId": { "type": "string" },
+        "userName": { "type": "string" },
+        "text": { "type": "string" },
+        "date": { "type": "string" }
+      },
+      "required": ["teachingId", "userName", "text", "date"]
+    },
+    "GalleryItem": {
+      "title": "GalleryItem",
+      "description": "Photos of community gathering and programs in the gallery",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "caption": { "type": "string" },
+        "dateAdded": { "type": "string" },
+        "programId": { "type": "string" },
+        "groupName": { "type": "string" }
+      },
+      "required": ["imageUrl", "dateAdded"]
+    }
+  },
+  "firestore": {
+    "/gallery/{galleryItemId}": {
+      "schema": "GalleryItem",
+      "description": "Collection of gallery photos"
+    },
+    "/programs/{programId}": {
+      "schema": "Program",
+      "description": "Collection of flagship programs"
+    },
+    "/messages/{messageId}": {
+      "schema": "Message",
+      "description": "Collection of teachings and messages"
+    },
+    "/registrations/{registrationId}": {
+      "schema": "Registration",
+      "description": "Collection of program registrants"
+    },
+    "/settings/{settingsId}": {
+      "schema": "SystemSettings",
+      "description": "Application general settings"
+    },
+    "/broadcasts/{broadcastId}": {
+      "schema": "Broadcast",
+      "description": "Broadcast history records"
+    },
+    "/quotes/{quoteId}": {
+      "schema": "Quote",
+      "description": "Spiritual quotes database"
+    },
+    "/converts/{convertId}": {
+      "schema": "Convert",
+      "description": "Decisions for Christ / new converts records"
+    },
+    "/events/{eventId}": {
+      "schema": "Event",
+      "description": "Ministry's calendar events"
+    },
+    "/testimonials/{testimonialId}": {
+      "schema": "Testimonial",
+      "description": "Community shared testimonies"
+    },
+    "/comments/{commentId}": {
+      "schema": "Comment",
+      "description": "Comments posted under teachings"
+    }
+  }
+}
