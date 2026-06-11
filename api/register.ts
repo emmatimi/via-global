@@ -60,10 +60,10 @@ const getPublicSiteUrl = () => {
 };
 
 const getPublicLogoUrl = () => {
-  const siteUrl = getPublicSiteUrl();
-  return siteUrl
-    ? `${siteUrl}/assets/via-ministry-logo-web.png`
-    : "https://ik.imagekit.io/4lndq5ke52/vialogo.png?updatedAt=1781025642014";
+  return (
+    process.env.PUBLIC_LOGO_URL ||
+    "https://ik.imagekit.io/4lndq5ke52/vialogo.png?updatedAt=1781025642014"
+  );
 };
 
 const getTransporter = () =>
@@ -170,7 +170,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
           "Registration Complete",
           `
             <p>Hello ${fullName},</p>
-            <p>Thank you for registering for <strong>${programTitle}</strong>.</p>
+            <p>Thank you for registering for <strong>${programTitle}</strong>, Come and be blessed.</p>
             <p><strong>Venue:</strong> ${programVenue || "To be announced"}</p>
             <p><strong>Date:</strong> ${programDate || "To be announced"}</p>
             <p><strong>Time:</strong> ${programTime || "To be announced"}</p>

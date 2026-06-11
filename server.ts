@@ -96,7 +96,7 @@ async function startServer() {
                 "Registration Complete",
                 `
                   <p>Hello ${fullName},</p>
-                  <p>Thank you for registering for <strong>${programTitle}</strong>.</p>
+                  <p>Thank you for registering for <strong>${programTitle}</strong>, Come and be blessed.</p>
                   <p><strong>Venue:</strong> ${programVenue || "To be announced"}</p>
                   <p><strong>Date:</strong> ${programDate || "To be announced"}</p>
                   <p><strong>Time:</strong> ${programTime || "To be announced"}</p>

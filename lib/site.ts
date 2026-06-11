@@ -48,10 +48,10 @@ export const getPublicSiteUrl = () => {
 };
 
 export const getPublicLogoUrl = () => {
-  const siteUrl = getPublicSiteUrl();
-  return siteUrl
-    ? `${siteUrl}/assets/via-ministry-logo-web.png`
-    : "https://ik.imagekit.io/4lndq5ke52/vialogo.png?updatedAt=1781025642014";
+  return (
+    process.env.PUBLIC_LOGO_URL ||
+    "https://ik.imagekit.io/4lndq5ke52/vialogo.png?updatedAt=1781025642014"
+  );
 };
 
 const escapeHtml = (value: string) =>
@@ -158,4 +158,3 @@ export const applyShareMeta = (html: string, meta: ProgramShareMeta) => {
 
   return output;
 };
-
