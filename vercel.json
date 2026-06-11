@@ -1,7 +1,23 @@
 {
   "functions": {
+    "api/contact.ts": {
+      "includeFiles": "lib/**"
+    },
+    "api/register.ts": {
+      "includeFiles": "lib/**"
+    },
+    "api/prayer.ts": {
+      "includeFiles": "lib/**"
+    },
+    "api/broadcast.ts": {
+      "includeFiles": "lib/**"
+    },
     "api/program.ts": {
-      "includeFiles": "dist/**"
+      "includeFiles": [
+        "dist/**",
+        "lib/**",
+        "firebase-applet-config.json"
+      ]
     }
   },
   "routes": [

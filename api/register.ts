@@ -1,5 +1,5 @@
-import { getBrandedEmailShell, getFromAddress, getTransporter } from "../lib/mail";
-import { readJsonBody, withJsonResponse, type ApiRequest, type ApiResponse } from "./_shared";
+import { getBrandedEmailShell, getFromAddress, getTransporter } from "../lib/mail.js";
+import { readJsonBody, withJsonResponse, type ApiRequest, type ApiResponse } from "./_shared.js";
 
 export default async function handler(req: ApiRequest, res: ApiResponse) {
   const response = withJsonResponse(res);

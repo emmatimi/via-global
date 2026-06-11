@@ -1,6 +1,6 @@
-import { getBrandedEmailShell, getFromAddress, getTransporter } from "../lib/mail";
-import { MINISTRY_NAME } from "../lib/site";
-import { readJsonBody, withJsonResponse, type ApiRequest, type ApiResponse } from "./_shared";
+import { getBrandedEmailShell, getFromAddress, getTransporter } from "../lib/mail.js";
+import { MINISTRY_NAME } from "../lib/site.js";
+import { readJsonBody, withJsonResponse, type ApiRequest, type ApiResponse } from "./_shared.js";
 
 export default async function handler(req: ApiRequest, res: ApiResponse) {
   const response = withJsonResponse(res);
@@ -43,4 +43,3 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     response.status(500).json({ success: false, error: "Failed to send broadcast emails" });
   }
 }
-

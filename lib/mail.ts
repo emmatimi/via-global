@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import { getPublicLogoUrl, MINISTRY_NAME } from "./site";
+import { getPublicLogoUrl, MINISTRY_NAME } from "./site.js";
 
 export const getTransporter = () =>
   nodemailer.createTransport({
@@ -50,4 +50,3 @@ export const deliverInBackground = async (jobs: Promise<unknown>[], label: strin
     console.error(`${label} failed`, failures);
   }
 };
-

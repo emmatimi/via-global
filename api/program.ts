@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
-import { applyShareMeta, getDefaultShareMeta, getProgramShareMeta } from "../lib/site";
-import { withJsonResponse, type ApiRequest, type ApiResponse } from "./_shared";
+import { applyShareMeta, getDefaultShareMeta, getProgramShareMeta } from "../lib/site.js";
+import { withJsonResponse, type ApiRequest, type ApiResponse } from "./_shared.js";
 
 const getBuiltHtmlTemplate = () => {
   const templatePath = path.join(process.cwd(), "dist", "index.html");
