@@ -852,7 +852,7 @@ export function AdminDashboard() {
     { id: 'teachings', icon: Video, label: 'Teachings' },
     { id: 'events', icon: Calendar, label: 'Events' },
     { id: 'gallery', icon: Image, label: 'Gallery' },
-    { id: 'testimonials', icon: UsersIcon, label: 'Voices' },
+    { id: 'testimonials', icon: UsersIcon, label: 'Testimonies' },
     { id: 'comments', icon: MessageSquare, label: 'Comments' },
     { id: 'broadcast', icon: Mail, label: 'Broadcast' },
     { id: 'quotes', icon: QuoteIcon, label: 'Quotes' },
@@ -935,7 +935,7 @@ export function AdminDashboard() {
             className="w-full flex items-center gap-3 px-4 py-3 rounded-sm text-xs font-bold uppercase tracking-widest text-red-400 hover:bg-red-500/10 transition-colors"
           >
             <LogOut className="w-4 h-4" />
-            Lock Portal
+            Sign Out
           </button>
         </div>
       </aside>

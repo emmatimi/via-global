@@ -82,7 +82,7 @@ export function Events() {
                         href={event.joinLink}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center gap-1.5 w-full sm:w-auto px-6 py-3 border border-gold-500/30 bg-gold-500/10 hover:bg-gold-500 text-gold-400 hover:text-navy-950 font-bold text-xs uppercase tracking-widest shadow-sm transition-all"
+                        className="inline-flex items-center justify-center gap-1.5 w-full sm:w-auto px-6 py-3 border border-gold-500/30 bg-gold-500/10 hover:bg-gold-500 text-gold-400 hover:text-black font-bold text-xs uppercase tracking-widest shadow-sm transition-all"
                       >
                         {event.joinLink.toLowerCase().includes('telegram') ? 'Join Telegram' : event.joinLink.toLowerCase().includes('whatsapp') || event.joinLink.toLowerCase().includes('wa.me') ? 'Join WhatsApp' : 'Join Event'}
                         <ArrowUpRight className="w-3.5 h-3.5" />

@@ -1,8 +1,17 @@
 import ministryLogo from '../../assets/via-ministry-logo-web.png';
-import { Mail, Phone, MapPin, Instagram, Facebook, Youtube, Twitter, MessageCircle, Send } from 'lucide-react';
+import { Mail, Phone, MapPin, Instagram, Facebook, Youtube, Twitter, Send } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { publicDataStore } from '../publicDataStore';
+
+function WhatsAppIcon({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true" className={className}>
+      <path d="M19.11 17.21c-.27-.14-1.58-.78-1.83-.87-.24-.09-.42-.14-.6.14-.18.27-.69.87-.84 1.05-.16.18-.31.2-.58.07-.27-.14-1.12-.41-2.14-1.3-.79-.7-1.33-1.56-1.48-1.83-.16-.27-.02-.41.12-.55.12-.12.27-.31.41-.47.14-.16.18-.27.27-.45.09-.18.05-.34-.02-.47-.07-.14-.6-1.45-.82-1.99-.22-.52-.44-.45-.6-.46-.16-.01-.34-.01-.52-.01-.18 0-.47.07-.72.34-.24.27-.94.92-.94 2.24 0 1.32.97 2.59 1.1 2.77.14.18 1.89 2.89 4.58 4.05.64.27 1.14.44 1.53.57.64.2 1.23.17 1.69.1.52-.08 1.58-.65 1.81-1.27.22-.63.22-1.16.16-1.27-.07-.11-.24-.18-.51-.32Z" />
+      <path d="M16.03 3.2c-7.07 0-12.8 5.71-12.8 12.74 0 2.25.59 4.45 1.72 6.38L3.12 28.8l6.68-1.75a12.87 12.87 0 0 0 6.22 1.59h.01c7.06 0 12.8-5.71 12.8-12.75 0-3.41-1.33-6.61-3.76-9.01A12.72 12.72 0 0 0 16.03 3.2Zm0 23.29h-.01a10.7 10.7 0 0 1-5.45-1.49l-.39-.23-3.96 1.04 1.06-3.85-.26-.4a10.56 10.56 0 0 1-1.64-5.67c0-5.88 4.82-10.66 10.73-10.66 2.87 0 5.56 1.11 7.58 3.13a10.57 10.57 0 0 1 3.14 7.54c0 5.88-4.82 10.66-10.8 10.66Z" />
+    </svg>
+  );
+}
 
 const quickLinks = [
   { name: 'Home', href: '/' },
@@ -110,7 +119,7 @@ export function Footer() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-emerald-400 hover:text-white transition-colors"
               >
-                <MessageCircle className="w-4 h-4 fill-emerald-500/10" />
+                <WhatsAppIcon className="w-4 h-4" />
                 Follow our WhatsApp Channel ↗
               </a>
               <a 

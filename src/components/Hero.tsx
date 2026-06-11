@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, type Variants } from 'motion/react';
 import { ArrowRight, PlayCircle, Quote as QuoteIcon, ChevronLeft, ChevronRight } from 'lucide-react';
 import { publicDataStore, Quote } from '../publicDataStore';
 
@@ -49,7 +49,7 @@ export function Hero() {
   };
 
   // Variants for custom transition animation
-  const slideVariants = {
+  const slideVariants: Variants = {
     enter: (dir: number) => ({
       x: dir > 0 ? 100 : -100,
       opacity: 0,
@@ -60,7 +60,7 @@ export function Hero() {
       opacity: 1,
       scale: 1,
       transition: {
-        x: { type: "spring", stiffness: 300, damping: 30 },
+        x: { type: "spring" as const, stiffness: 300, damping: 30 },
         opacity: { duration: 0.4 }
       }
     },
@@ -69,7 +69,7 @@ export function Hero() {
       opacity: 0,
       scale: 0.95,
       transition: {
-        x: { type: "spring", stiffness: 300, damping: 30 },
+        x: { type: "spring" as const, stiffness: 300, damping: 30 },
         opacity: { duration: 0.4 }
       }
     })

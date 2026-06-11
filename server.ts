@@ -1,13 +1,34 @@
 import express from "express";
+import fs from "fs";
 import path from "path";
 import { createServer as createViteServer } from "vite";
 import nodemailer from "nodemailer";
 import cors from "cors";
 import dotenv from "dotenv";
+import { initializeApp, type FirebaseOptions } from "firebase/app";
+import { doc, getDoc, getFirestore } from "firebase/firestore";
 
 dotenv.config();
 
 const MINISTRY_NAME = "VIA Global";
+const DEFAULT_META_TITLE = "VIA Global | Raising Light, Faith, and Purpose";
+const DEFAULT_META_DESCRIPTION = "A community dedicated to spiritual growth, authentic connection, and impactful outreach. Join our modern ministry platform.";
+
+type ProgramShareMeta = {
+  title: string;
+  description: string;
+  image: string;
+  url?: string;
+};
+
+type FirebaseWebConfig = FirebaseOptions & {
+  firestoreDatabaseId?: string;
+};
+
+const firebaseConfigPath = path.join(process.cwd(), "firebase-applet-config.json");
+const firebaseConfig = JSON.parse(fs.readFileSync(firebaseConfigPath, "utf8")) as FirebaseWebConfig;
+const firebaseApp = initializeApp(firebaseConfig);
+const firestore = getFirestore(firebaseApp, firebaseConfig.firestoreDatabaseId);
 
 const getPublicSiteUrl = () => {
   const configuredUrl =
@@ -21,7 +42,111 @@ const getPublicSiteUrl = () => {
 
 const getPublicLogoUrl = () => {
   const siteUrl = getPublicSiteUrl();
-  return siteUrl ? `${siteUrl}/assets/via-ministry-logo-web.png` : "";
+  return siteUrl
+    ? `${siteUrl}/assets/via-ministry-logo-web.png`
+    : "https://ik.imagekit.io/4lndq5ke52/vialogo.png?updatedAt=1781025642014";
+};
+
+const escapeHtml = (value: string) =>
+  value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+
+const getDefaultShareMeta = (): ProgramShareMeta => ({
+  title: DEFAULT_META_TITLE,
+  description: DEFAULT_META_DESCRIPTION,
+  image: getPublicLogoUrl(),
+  url: getPublicSiteUrl() || undefined,
+});
+
+const buildProgramDescription = (program: Record<string, unknown>) => {
+  const summaryParts = [
+    typeof program.subtitle === "string" ? program.subtitle : "",
+    typeof program.date === "string" ? `Date: ${program.date}` : "",
+    typeof program.time === "string" && program.time ? `Time: ${program.time}` : "",
+    typeof program.venue === "string" && program.venue ? `Venue: ${program.venue}` : "",
+  ].filter(Boolean);
+
+  return summaryParts.join(" | ") || DEFAULT_META_DESCRIPTION;
+};
+
+const getProgramShareMeta = async (programId: string): Promise<ProgramShareMeta | null> => {
+  try {
+    const snapshot = await getDoc(doc(firestore, "programs", programId));
+    if (!snapshot.exists()) {
+      return null;
+    }
+
+    const program = snapshot.data() as Record<string, unknown>;
+    const siteUrl = getPublicSiteUrl();
+
+    return {
+      title: typeof program.title === "string" && program.title
+        ? `${program.title} | ${MINISTRY_NAME}`
+        : DEFAULT_META_TITLE,
+      description: buildProgramDescription(program),
+      image: typeof program.image === "string" && program.image
+        ? program.image
+        : getPublicLogoUrl(),
+      url: siteUrl ? `${siteUrl}/programs/${programId}` : undefined,
+    };
+  } catch (error) {
+    console.error("Failed to build program share metadata", error);
+    return null;
+  }
+};
+
+const applyShareMeta = (html: string, meta: ProgramShareMeta) => {
+  const title = escapeHtml(meta.title);
+  const description = escapeHtml(meta.description);
+  const image = escapeHtml(meta.image);
+  const url = escapeHtml(meta.url || "");
+
+  let output = html.replace(/<title>.*?<\/title>/is, `<title>${title}</title>`);
+  output = output.replace(
+    /<meta name="description" content=".*?" \/>/i,
+    `<meta name="description" content="${description}" />`
+  );
+  output = output.replace(
+    /<meta property="og:title" content=".*?" \/>/i,
+    `<meta property="og:title" content="${title}" />`
+  );
+  output = output.replace(
+    /<meta property="og:description" content=".*?" \/>/i,
+    `<meta property="og:description" content="${description}" />`
+  );
+  output = output.replace(
+    /<meta property="og:image" content=".*?" \/>/i,
+    `<meta property="og:image" content="${image}" />`
+  );
+  output = output.replace(
+    /<meta property="twitter:title" content=".*?" \/>/i,
+    `<meta property="twitter:title" content="${title}" />`
+  );
+  output = output.replace(
+    /<meta property="twitter:description" content=".*?" \/>/i,
+    `<meta property="twitter:description" content="${description}" />`
+  );
+  output = output.replace(
+    /<meta property="twitter:image" content=".*?" \/>/i,
+    `<meta property="twitter:image" content="${image}" />`
+  );
+
+  if (url) {
+    if (/<meta property="og:url" content=".*?" \/>/i.test(output)) {
+      output = output.replace(
+        /<meta property="og:url" content=".*?" \/>/i,
+        `<meta property="og:url" content="${url}" />`
+      );
+    } else {
+      output = output.replace("</head>", `    <meta property="og:url" content="${url}" />\n  </head>`);
+    }
+  }
+
+  return output;
 };
 
 // Create transporter from environment variables
@@ -78,6 +203,7 @@ const deliverInBackground = async (jobs: Promise<unknown>[], label: string) => {
 async function startServer() {
   const app = express();
   const PORT = 3000;
+  let vite: Awaited<ReturnType<typeof createViteServer>> | null = null;
 
   app.use(express.json());
   app.use(cors());
@@ -165,8 +291,6 @@ async function startServer() {
                   <p><strong>Venue:</strong> ${programVenue || "To be announced"}</p>
                   <p><strong>Date:</strong> ${programDate || "To be announced"}</p>
                   <p><strong>Time:</strong> ${programTime || "To be announced"}</p>
-                  <p><strong>Your Location:</strong> ${location || "Not provided"}</p>
-                  ${phone ? `<p><strong>Your Phone:</strong> ${phone}</p>` : ""}
                 `,
                 "You are receiving this confirmation because you completed a registration on the ministry website."
               ),
@@ -253,7 +377,7 @@ async function startServer() {
 
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
-    const vite = await createViteServer({
+    vite = await createViteServer({
       server: { middlewareMode: true },
       appType: "spa",
     });
@@ -262,10 +386,34 @@ async function startServer() {
     // Production serving
     const distPath = path.join(process.cwd(), 'dist');
     app.use(express.static(distPath));
-    app.get('*', (req, res) => {
-      res.sendFile(path.join(distPath, 'index.html'));
-    });
   }
+
+  app.get('*', async (req, res) => {
+    try {
+      const programMatch = req.path.match(/^\/programs\/([^/#?]+)/);
+      const routeMeta = programMatch
+        ? await getProgramShareMeta(decodeURIComponent(programMatch[1]))
+        : null;
+      const shareMeta = routeMeta || getDefaultShareMeta();
+
+      if (vite) {
+        const templatePath = path.join(process.cwd(), 'index.html');
+        let template = fs.readFileSync(templatePath, 'utf8');
+        template = applyShareMeta(template, shareMeta);
+        const html = await vite.transformIndexHtml(req.originalUrl, template);
+        res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
+        return;
+      }
+
+      const distPath = path.join(process.cwd(), 'dist');
+      const template = fs.readFileSync(path.join(distPath, 'index.html'), 'utf8');
+      const html = applyShareMeta(template, shareMeta);
+      res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
+    } catch (error) {
+      console.error("Failed to render page metadata", error);
+      res.status(500).send("Internal Server Error");
+    }
+  });
 
   app.listen(PORT, "0.0.0.0", () => {
     console.log(`Server running on http://localhost:${PORT}`);
