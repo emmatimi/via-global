@@ -97,14 +97,29 @@ export const getProgramShareMeta = async (programId: string): Promise<ProgramSha
           ? `${program.title} | ${MINISTRY_NAME}`
           : DEFAULT_META_TITLE,
       description: buildProgramDescription(program),
-      image:
-        typeof program.image === "string" && program.image
-          ? program.image
-          : getPublicLogoUrl(),
+      image: siteUrl
+        ? `${siteUrl}/api/program-image?id=${encodeURIComponent(programId)}`
+        : getPublicLogoUrl(),
       url: siteUrl ? `${siteUrl}/programs/${programId}` : undefined,
     };
   } catch (error) {
     console.error("Failed to build program share metadata", error);
+    return null;
+  }
+};
+
+export const getProgramImageSource = async (programId: string): Promise<string | null> => {
+  try {
+    const firestore = getFirestoreInstance();
+    const snapshot = await getDoc(doc(firestore, "programs", programId));
+    if (!snapshot.exists()) {
+      return null;
+    }
+
+    const program = snapshot.data() as Record<string, unknown>;
+    return typeof program.image === "string" && program.image ? program.image : null;
+  } catch (error) {
+    console.error("Failed to load program image source", error);
     return null;
   }
 };

@@ -14,6 +14,9 @@
     },
     "api/program.ts": {
       "includeFiles": "{dist/**,lib/**,firebase-applet-config.json}"
+    },
+    "api/program-image.ts": {
+      "includeFiles": "{lib/**,firebase-applet-config.json}"
     }
   },
   "routes": [
