@@ -812,7 +812,7 @@ export function AdminDashboard() {
               />
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] uppercase font-bold tracking-widest text-white/40 block">Security Password</label>
+              <label className="text-[10px] uppercase font-bold tracking-widest text-white/40 block">Password</label>
               <input 
                 type="password"
                 required
@@ -2273,7 +2273,6 @@ function EventsPane({ handleAction, showConfirm }: EventsPaneProps) {
               <div className="space-y-1">
                 <div className="flex justify-between items-center">
                   <label className="text-[10px] uppercase font-bold tracking-widest text-white/50 block">WhatsApp / Telegram Redirect Link (Optional)</label>
-                  <span className="text-[8px] uppercase tracking-widest text-emerald-400 font-bold">Replaces Register Button</span>
                 </div>
                 <input 
                   type="url"

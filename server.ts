@@ -77,9 +77,6 @@ async function startServer() {
                 "New Program Registration",
                 `
                   <p><strong>Program:</strong> ${programTitle}</p>
-                  <p><strong>Date:</strong> ${programDate || "To be announced"}</p>
-                  <p><strong>Time:</strong> ${programTime || "To be announced"}</p>
-                  <p><strong>Venue:</strong> ${programVenue || "To be announced"}</p>
                   <p><strong>Registrant Name:</strong> ${fullName}</p>
                   <p><strong>Email:</strong> ${email}</p>
                   <p><strong>Phone:</strong> ${phone || "Not provided"}</p>
@@ -119,7 +116,9 @@ async function startServer() {
   // API Route for sending prayer and question requests to administrative leadership
   app.post("/api/prayer", async (req, res) => {
     try {
-      const { name, email, request } = req.body;
+      const { name, email, requestType, request } = req.body;
+      const isPrayerRequest = requestType === "prayer";
+      const submissionType = isPrayerRequest ? "Prayer Request" : "Question";
       
       const transporter = getTransporter();
       
@@ -127,14 +126,15 @@ async function startServer() {
         from: getFromAddress(),
         to: process.env.SMTP_FROM_EMAIL || process.env.SMTP_USER,
         replyTo: email || undefined,
-        subject: `[Confidential Prayer Request]: Submitted via Got a Question`,
+        subject: `[Confidential ${submissionType}]: Submitted via Got a Question`,
         html: getBrandedEmailShell(
-          "Intercession Request Alert",
+          `New ${submissionType}`,
           `
-            <p>A new secure/confidential prayer and guidance request was submitted online:</p>
+            <p>A new confidential ${submissionType.toLowerCase()} was submitted online:</p>
+            <p><strong>Submission Type:</strong> ${submissionType}</p>
             <p><strong>Name:</strong> ${name || "Anonymous"}</p>
             <p><strong>Reply/Follow-up Email:</strong> ${email || "Not Provided"}</p>
-            <p><strong>Petition / Question details:</strong></p>
+            <p><strong>${submissionType} Details:</strong></p>
             <blockquote style="background: #f1f5f9; border-left: 4px solid #b35a12; padding: 15px; font-style: italic; margin: 20px 0; color: #475569;">
               ${request.replace(/\n/g, "<br/>")}
             </blockquote>
@@ -143,10 +143,10 @@ async function startServer() {
         ),
       });
 
-      res.json({ success: true, message: "Prayer request submitted to intercessors successfully!" });
+      res.json({ success: true, message: `${submissionType} submitted successfully!` });
     } catch (error) {
-      console.error("Error processing prayer request:", error);
-      res.status(500).json({ success: false, error: "Failed to submit prayer request" });
+      console.error("Error processing question or prayer request:", error);
+      res.status(500).json({ success: false, error: "Failed to submit question or prayer request" });
     }
   });
 
