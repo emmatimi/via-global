@@ -24,7 +24,7 @@ export function Partner() {
     <section id="partner" className="py-12 bg-transparent relative border-t border-white/5">
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
         <div className="bg-white/5 rounded-xl overflow-hidden shadow-xl border border-white/10 backdrop-blur-sm p-6 sm:p-10">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+          <div className=" items-center">
             
             {/* CONTENT COLUMN */}
             <div className="md:col-span-7 space-y-4">
@@ -57,28 +57,6 @@ export function Partner() {
                 >
                   <MessageCircle className="w-3.5 h-3.5 fill-white/10" /> Reach Out on WhatsApp
                 </a>
-              </div>
-            </div>
-
-            {/* QUICK PILLARS COLUMN */}
-            <div className="md:col-span-12 lg:col-span-5 md:col-span-5 space-y-3 border-t md:border-t-0 md:border-l border-white/10 pt-4 md:pt-0 md:pl-6">
-              <div className="flex items-start gap-3">
-                <div className="mt-0.5 border border-white/10 bg-white/5 p-1.5 rounded-sm text-gold-500 shrink-0">
-                  <HandHeart className="w-3.5 h-3.5" />
-                </div>
-                <div>
-                  <h4 className="text-[10px] font-bold uppercase tracking-wider text-soft-white">Global Outreaches</h4>
-                  <p className="text-[11px] text-white/50 leading-relaxed font-sans mt-0.5">Sponsoring free crusades, dynamic retreats, and regional gatherings.</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="mt-0.5 border border-white/10 bg-white/5 p-1.5 rounded-sm text-gold-500 shrink-0">
-                  <TrendingUp className="w-3.5 h-3.5" />
-                </div>
-                <div>
-                  <h4 className="text-[10px] font-bold uppercase tracking-wider text-soft-white">Digital Ministry</h4>
-                  <p className="text-[11px] text-white/50 leading-relaxed font-sans mt-0.5">Keeping premium teachings, video archives, and broadcast archives open and free.</p>
-                </div>
               </div>
             </div>
 

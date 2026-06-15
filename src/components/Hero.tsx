@@ -100,10 +100,10 @@ export function Hero() {
               className="text-left"
             >
               <div className="inline-block px-3 py-1 bg-white/5 border border-white/10 text-gold-500 text-[10px] uppercase tracking-[0.3em] font-semibold mb-6">
-                Raising a New Generation
+                A Troop of God's Army
               </div>
-              <h1 className="text-4xl sm:text-5xl md:text-7xl font-serif italic text-soft-white leading-[1.1] mb-8 font-medium">
-                Raising Light, Faith, <br className="hidden md:block"/>and <span className="text-gold-500">Purpose.</span>
+              <h1 className="text-3xl sm:text-3xl md:text-6xl font-serif italic text-soft-white leading-[1.1] mb-8 font-medium">
+                Raising a generation of light, impact and <span className="text-gold-500">influence.</span>
               </h1>
               <p className="text-white/60 text-sm sm:text-base leading-relaxed max-w-lg mb-10 font-sans">
                 We are a ministry platform dedicated to building spiritual foundations and empowering modern leaders to carry the message of hope across the globe.

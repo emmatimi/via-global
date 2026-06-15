@@ -50,16 +50,16 @@ export function Footer() {
               Raising light, faith, and purpose in this generation. Join us on this transformative journey of knowing Him and making Him known.
             </p>
             <div className="flex items-center gap-4">
-              <a href="#" className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center hover:bg-gold-500 hover:text-navy-900 transition-all text-white/50">
+              <a href="https://www.instagram.com/viaglobal/" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center hover:bg-gold-500 hover:text-navy-900 transition-all text-white/50">
                 <Instagram className="w-3.5 h-3.5" />
               </a>
-              <a href="#" className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center hover:bg-gold-500 hover:text-navy-900 transition-all text-white/50">
+              <a href="https://youtube.com/@viaglobaltv?si=cr8NgUSxaVP_-l3n" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center hover:bg-gold-500 hover:text-navy-900 transition-all text-white/50">
                 <Youtube className="w-3.5 h-3.5" />
               </a>
-              <a href="#" className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center hover:bg-gold-500 hover:text-navy-900 transition-all text-white/50">
+              <a href="https://www.facebook.com/VIAglobal01" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center hover:bg-gold-500 hover:text-navy-900 transition-all text-white/50">
                 <Facebook className="w-3.5 h-3.5" />
               </a>
-              <a href="#" className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center hover:bg-gold-500 hover:text-navy-900 transition-all text-white/50">
+              <a href="https://twitter.com/viaglobal" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center hover:bg-gold-500 hover:text-navy-900 transition-all text-white/50">
                 <Twitter className="w-3.5 h-3.5" />
               </a>
             </div>
@@ -137,7 +137,7 @@ export function Footer() {
 
         <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
           <div className="text-[10px] text-white/40 uppercase tracking-[0.4em] italic">
-            Transforming Lives. Illuminating Purpose.
+            In this light many will see light...
           </div>
           <div className="flex gap-6 text-[10px] text-white/40 font-bold uppercase tracking-widest">
              <Link to="/about" className="hover:text-gold-500 transition-colors">Privacy Policy</Link>

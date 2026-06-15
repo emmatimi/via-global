@@ -4,13 +4,13 @@ export const programs: Program[] = [
   {
     id: '1',
     title: 'Discipleship',
-    description: 'Deepen your roots in the Word through guided study and mentorship.',
+    description: "If you just gave your life to Christ or you've done that before and you're willing to be discipled at School of discipleship (SOD), send a message to us via our email.",
     icon: 'BookOpen',
   },
   {
     id: '2',
     title: 'Prayer Gatherings',
-    description: 'Join us in targeted, spirit-led intercession for our cities and generation.',
+    description: 'We meet via our telegram page every first Thursday of the month for prophetic push. ',
     icon: 'Flame',
   },
   {

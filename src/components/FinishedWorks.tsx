@@ -192,7 +192,7 @@ export function FinishedWorks() {
                       <Sparkles className="w-5 h-5 shrink-0 text-gold-500" />
                       <div>
                         <strong className="block text-soft-white uppercase tracking-wider text-[10px] mb-0.5">Heaven Rejoices!</strong>
-                        <p className="mb-2">Welcome to God's family! You have been born again into eternal grace. We would love to walk with you on this beautiful journey.</p>
+                        <p className="mb-2">Welcome to God's family! You have been born again into eternal grace. We would love to walk with you on this beautiful journey. If you want to join our school of discipleship you can reach out to us on the <Link to="/contact" className="underline font-bold text-white hover:text-gold-400 inline-flex items-center gap-0.5">contact page<ArrowRight className="w-3 h-3 inline" /></Link></p>
                         <p className="text-gold-200">
                           You can also check our <Link to="/teachings" className="underline font-bold text-white hover:text-gold-400 inline-flex items-center gap-0.5">teachings <ArrowRight className="w-3 h-3 inline" /></Link> for edifying content for spiritual growth.
                         </p>
@@ -235,7 +235,7 @@ export function FinishedWorks() {
                         className="p-3 bg-green-500/10 border border-green-500/20 text-green-400 text-xs rounded-lg flex items-center gap-2"
                       >
                         <CheckCircle2 className="w-4 h-4 shrink-0" />
-                        <span>Congratulations! Your decision has been securely sent. Check your mail vault.</span>
+                        <span>Congratulations! Your decision has been securely sent.</span>
                       </motion.div>
                     )}
                   </motion.div>

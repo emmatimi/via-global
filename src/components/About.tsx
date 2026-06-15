@@ -21,7 +21,7 @@ export function About() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
               <div className="absolute bottom-8 left-8 right-8 text-white z-10">
                 <p className="font-serif italic text-xl border-l border-gold-500 pl-4 py-1">
-                  "Let your light so shine before men, that they may see your good works..."
+                  In this light many will see light...
                 </p>
               </div>
             </div>
@@ -36,24 +36,24 @@ export function About() {
           >
             <div>
               <div className="text-[10px] uppercase tracking-widest font-bold text-gold-500 mb-4">Our Story</div>
-              <h2 className="mt-2 text-4xl font-serif italic text-soft-white leading-tight">A Community Rooted<br/>in Love & Purpose</h2>
+              <h2 className="mt-2 text-4xl font-serif italic text-soft-white leading-tight">Raising a generation of Light, <br/>Impact and Influence</h2>
             </div>
             
             <p className="text-white/60 leading-relaxed text-sm">
-              Our ministry was founded with a singular focus: to awaken a generation to their God-given identity and purpose. We believe that true transformation happens when people encounter authentic love and are equipped with truth.
+              Our ministry was founded with a singular focus: Accurately discipling God's people to becoming all of God's intentions in our day and time.
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-6">
               <div className="bg-white/5 p-6 rounded-xl border border-white/10 flex flex-col gap-3">
                 <h3 className="font-serif italic text-lg text-soft-white">Our Vision</h3>
                 <p className="text-white/50 text-xs leading-relaxed">
-                  To see a vibrant community of believers living out their faith with bold conviction, impacting every sphere of society with light and truth.
+                  To see Christ accurately revealed in a generation through the power of the Gospel and the efficacy of the Word.
                 </p>
               </div>
               <div className="bg-white/5 p-6 rounded-xl border border-white/10 flex flex-col gap-3">
                 <h3 className="font-serif italic text-lg text-soft-white">Our Mission</h3>
                 <p className="text-white/50 text-xs leading-relaxed">
-                  To foster spiritual maturity through transformative teachings, heartfelt worship, and engaging community initiatives that build up the individual and bless the city.
+                 To preach and practice the Gospel by raising disciples who know Christ, live His Word, and influence their generation.
                 </p>
               </div>
             </div>
