@@ -1,6 +1,44 @@
 import { motion } from 'motion/react';
-import { programs } from '../data';
 import { BookOpen, Flame, Globe, Shield, Users, Video } from 'lucide-react';
+
+const focusAreas = [
+  {
+    id: 'discipleship',
+    title: 'Discipleship',
+    description: "If you just gave your life to Christ or you've done that before and you're willing to be discipled at School of Discipleship (SOD), send a message to us via our email.",
+    icon: 'BookOpen',
+  },
+  {
+    id: 'prayer-gatherings',
+    title: 'Prayer Gatherings',
+    description: 'We meet via our Telegram page every first Thursday of the month for Prophetic Push.',
+    icon: 'Flame',
+  },
+  {
+    id: 'outreach-initiatives',
+    title: 'Outreach Initiatives',
+    description: 'Taking the message of hope and practical love to our communities.',
+    icon: 'Globe',
+  },
+  {
+    id: 'leadership-development',
+    title: 'Leadership Development',
+    description: 'Equipping the next generation of Kingdom builders and visionaries.',
+    icon: 'Shield',
+  },
+  {
+    id: 'media-ministry',
+    title: 'Media Ministry',
+    description: 'Spreading light through digital content, teaching, and creative arts.',
+    icon: 'Video',
+  },
+  {
+    id: 'youth-community',
+    title: 'Youth Community',
+    description: 'A vibrant space for young adults to discover purpose and connect.',
+    icon: 'Users',
+  },
+] as const;
 
 const iconMap = {
   BookOpen,
@@ -47,7 +85,7 @@ export function Programs() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {programs.map((program, index) => {
+          {focusAreas.map((program, index) => {
             const Icon = iconMap[program.icon as keyof typeof iconMap];
             return (
               <motion.div
