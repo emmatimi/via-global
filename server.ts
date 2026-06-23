@@ -11,7 +11,7 @@ dotenv.config();
 
 async function startServer() {
   const app = express();
-  const PORT = 3000;
+  const PORT = 3001;
   let vite: Awaited<ReturnType<typeof createViteServer>> | null = null;
 
   app.use(express.json());

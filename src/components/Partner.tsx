@@ -1,18 +1,32 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { HandHeart, TrendingUp, ChevronDown, ChevronUp, Copy, Check, MessageCircle } from 'lucide-react';
+import { ChevronDown, ChevronUp, Copy, Check } from 'lucide-react';
 import { publicDataStore } from '../publicDataStore';
+
+function WhatsAppIcon({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true" className={className}>
+      <path d="M19.11 17.21c-.27-.14-1.58-.78-1.83-.87-.24-.09-.42-.14-.6.14-.18.27-.69.87-.84 1.05-.16.18-.31.2-.58.07-.27-.14-1.12-.41-2.14-1.3-.79-.7-1.33-1.56-1.48-1.83-.16-.27-.02-.41.12-.55.12-.12.27-.31.41-.47.14-.16.18-.27.27-.45.09-.18.05-.34-.02-.47-.07-.14-.6-1.45-.82-1.99-.22-.52-.44-.45-.6-.46-.16-.01-.34-.01-.52-.01-.18 0-.47.07-.72.34-.24.27-.94.92-.94 2.24 0 1.32.97 2.59 1.1 2.77.14.18 1.89 2.89 4.58 4.05.64.27 1.14.44 1.53.57.64.2 1.23.17 1.69.1.52-.08 1.58-.65 1.81-1.27.22-.63.22-1.16.16-1.27-.07-.11-.24-.18-.51-.32Z" />
+      <path d="M16.03 3.2c-7.07 0-12.8 5.71-12.8 12.74 0 2.25.59 4.45 1.72 6.38L3.12 28.8l6.68-1.75a12.87 12.87 0 0 0 6.22 1.59h.01c7.06 0 12.8-5.71 12.8-12.75 0-3.41-1.33-6.61-3.76-9.01A12.72 12.72 0 0 0 16.03 3.2Zm0 23.29h-.01a10.7 10.7 0 0 1-5.45-1.49l-.39-.23-3.96 1.04 1.06-3.85-.26-.4a10.56 10.56 0 0 1-1.64-5.67c0-5.88 4.82-10.66 10.73-10.66 2.87 0 5.56 1.11 7.58 3.13a10.57 10.57 0 0 1 3.14 7.54c0 5.88-4.82 10.66-10.8 10.66Z" />
+    </svg>
+  );
+}
 
 export function Partner() {
   const [showBankDetails, setShowBankDetails] = useState(false);
   const [copied, setCopied] = useState(false);
-  
-  const settings = publicDataStore.getSettings();
-  const whatsappNumber = settings?.supportPhone?.replace(/[^0-9]/g, '') || '18005555433';
+  const [settings, setSettings] = useState(() => publicDataStore.getSettings());
 
-  const bankName = "Opay";
-  const accountName = "VIA Global";
-  const accountNumber = "1023456789";
+  useEffect(() => {
+    const handleUpdate = () => setSettings(publicDataStore.getSettings());
+    window.addEventListener('lumina_store_updated', handleUpdate);
+    return () => window.removeEventListener('lumina_store_updated', handleUpdate);
+  }, []);
+
+  const whatsappNumber = settings.supportPhone?.replace(/[^0-9]/g, '') || '18005555433';
+  const bankName = settings.partnerBankName?.trim() || 'Opay';
+  const accountName = settings.partnerAccountName?.trim() || 'VIA Global';
+  const accountNumber = settings.partnerAccountNumber?.trim() || '1023456789';
 
   const handleCopy = () => {
     navigator.clipboard.writeText(accountNumber);
@@ -24,9 +38,7 @@ export function Partner() {
     <section id="partner" className="py-12 bg-transparent relative border-t border-white/5">
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
         <div className="bg-white/5 rounded-xl overflow-hidden shadow-xl border border-white/10 backdrop-blur-sm p-6 sm:p-10">
-          <div className=" items-center">
-            
-            {/* CONTENT COLUMN */}
+          <div className="items-center">
             <div className="md:col-span-7 space-y-4">
               <span className="text-[10px] uppercase tracking-[0.25em] font-semibold text-gold-500 block">
                 Support the vision
@@ -39,8 +51,7 @@ export function Partner() {
               </p>
 
               <div className="flex flex-wrap gap-3 pt-2">
-                {/* Bank details drop down toggle */}
-                <button 
+                <button
                   onClick={() => setShowBankDetails(!showBankDetails)}
                   className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded text-xs text-soft-white font-medium flex items-center gap-1.5 transition-all"
                 >
@@ -48,21 +59,18 @@ export function Partner() {
                   {showBankDetails ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
                 </button>
 
-                {/* WhatsApp button link */}
-                <a 
+                <a
                   href={`https://wa.me/${whatsappNumber}`}
                   target="_blank"
                   referrerPolicy="no-referrer"
-                  className="px-4 py-2 bg-green-600 hover:bg-green-500 rounded text-xs text-white font-bold flex items-center gap-1.5 transition-all shadow-md shadow-green-600/10"
+                  className="partner-whatsapp-button px-4 py-2 bg-green-600 hover:bg-green-500 rounded text-xs text-white font-bold flex items-center gap-1.5 transition-all shadow-md shadow-green-600/10"
                 >
-                  <MessageCircle className="w-3.5 h-3.5 fill-white/10" /> Reach Out on WhatsApp
+                  <WhatsAppIcon className="w-4 h-4" /> Reach Out on WhatsApp
                 </a>
               </div>
             </div>
-
           </div>
 
-          {/* BANK DETAILS SLIDEOUT / DROPDOWN */}
           <AnimatePresence>
             {showBankDetails && (
               <motion.div
@@ -78,7 +86,7 @@ export function Partner() {
                     <h4 className="text-xs font-bold uppercase tracking-widest text-gold-500 mb-4 flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-gold-500 animate-pulse" /> Direct Bank Transfer Details
                     </h4>
-                    
+
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
                       <div className="space-y-1">
                         <span className="text-[10px] uppercase tracking-widest text-white/40 font-bold block">Bank Name</span>
@@ -92,7 +100,7 @@ export function Partner() {
                         <span className="text-[10px] uppercase tracking-widest text-white/40 font-bold block">Account Number</span>
                         <div className="flex items-center gap-1.5">
                           <p className="text-gold-300 font-mono font-medium tracking-wider">{accountNumber}</p>
-                          <button 
+                          <button
                             onClick={handleCopy}
                             className="p-1 hover:bg-white/5 text-white/40 hover:text-gold-500 rounded transition-all"
                             title="Copy Account Number"
@@ -110,7 +118,6 @@ export function Partner() {
               </motion.div>
             )}
           </AnimatePresence>
-
         </div>
       </div>
     </section>

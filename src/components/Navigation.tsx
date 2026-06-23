@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Menu, Moon, Sun, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link, useLocation } from 'react-router-dom';
 import ministryLogo from '../../assets/via-ministry-logo-web.png';
+import { useTheme } from '../theme';
 
 const links = [
   { name: 'Home', href: '/' },
@@ -19,6 +20,8 @@ export function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
   const [logoClicks, setLogoClicks] = useState(0);
+  const { theme, toggleTheme } = useTheme();
+  const isActiveLink = (href: string) => href === '/' ? location.pathname === '/' : location.pathname === href || location.pathname.startsWith(href + '/');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -44,7 +47,7 @@ export function Navigation() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  const handleLogoClick = (e: React.MouseEvent) => {
+  const handleLogoClick = () => {
     setLogoClicks((prev) => {
       const next = prev + 1;
       if (next >= 5) {
@@ -63,7 +66,7 @@ export function Navigation() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${
+      className={`site-nav ${isScrolled ? 'is-scrolled' : 'is-over-hero'} fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${
         isScrolled ? 'bg-navy-900/90 backdrop-blur-md border-white/10 py-4' : 'bg-transparent border-white/5 py-4'
       }`}
     >
@@ -83,7 +86,7 @@ export function Navigation() {
               key={link.name}
               to={link.href}
               className={`text-xs font-medium uppercase tracking-[0.2em] transition-colors ${
-                location.pathname === link.href ? 'text-gold-500' : 'text-white/60 hover:text-gold-500'
+                isActiveLink(link.href) ? 'nav-link-active text-gold-500' : 'text-white/60 hover:text-gold-500'
               }`}
             >
               {link.name}
@@ -91,23 +94,42 @@ export function Navigation() {
           ))}
           <Link
             to="/ask"
-            className="px-6 py-2 border border-gold-500 text-gold-500 text-xs font-bold uppercase tracking-widest hover:bg-gold-500 hover:text-navy-900 transition-colors"
+            className={`got-question-link px-6 py-2 border border-gold-500 text-gold-500 text-xs font-bold uppercase tracking-widest hover:bg-gold-500 hover:text-navy-900 transition-colors ${isActiveLink('/ask') ? 'nav-link-active bg-gold-500 text-navy-900' : ''}`}
           >
             GOT A QUESTION
           </Link>
+          <button
+            type="button"
+            onClick={toggleTheme}
+            className="theme-toggle inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 transition-all hover:border-gold-500/40 hover:text-gold-500"
+            aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+          >
+            {theme === 'light' ? <Sun className="h-3.5 w-3.5" /> : <Moon className="h-3.5 w-3.5" />}
+          </button>
         </nav>
 
         {/* Mobile Menu Button */}
-        <button
-          className="lg:hidden p-2 rounded-md focus:outline-none"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        >
-          {mobileMenuOpen ? (
-            <X className="text-white" />
-          ) : (
-            <Menu className="text-white" />
-          )}
-        </button>
+        <div className="lg:hidden flex items-center gap-2">
+          <button
+            type="button"
+            onClick={toggleTheme}
+            className="theme-toggle inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 p-2 text-white/70 transition-colors"
+            aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+          >
+            {theme === 'light' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+          </button>
+          <button
+            className="p-2 rounded-md focus:outline-none"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle navigation menu"
+          >
+            {mobileMenuOpen ? (
+              <X className="text-white" />
+            ) : (
+              <Menu className="text-white" />
+            )}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Nav */}
@@ -117,7 +139,7 @@ export function Navigation() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-navy-900/95 backdrop-blur-lg border-b border-white/10 overflow-hidden"
+            className="mobile-nav-panel lg:hidden bg-navy-900/95 backdrop-blur-lg border-b border-white/10 overflow-hidden"
           >
             <div className="px-4 pt-2 pb-6 space-y-1">
               {links.map((link) => (
@@ -126,7 +148,7 @@ export function Navigation() {
                   to={link.href}
                   onClick={() => setMobileMenuOpen(false)}
                   className={`block px-3 py-4 text-xs font-medium uppercase tracking-[0.2em] rounded-sm ${
-                    location.pathname === link.href ? 'text-gold-500 bg-white/5' : 'text-white/80 hover:bg-white/5'
+                    isActiveLink(link.href) ? 'nav-link-active text-gold-500 bg-white/5' : 'text-white/80 hover:bg-white/5'
                   }`}
                 >
                   {link.name}
@@ -136,7 +158,7 @@ export function Navigation() {
                 <Link
                   to="/ask"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="w-full flex justify-center py-3 px-4 border border-gold-500 text-gold-500 text-xs font-bold uppercase tracking-widest hover:bg-gold-500 hover:text-navy-900 transition-colors"
+                  className={`got-question-link w-full flex justify-center py-3 px-4 border border-gold-500 text-gold-500 text-xs font-bold uppercase tracking-widest hover:bg-gold-500 hover:text-navy-900 transition-colors ${isActiveLink('/ask') ? 'nav-link-active bg-gold-500 text-navy-900' : ''}`}
                 >
                   GOT A QUESTION
                 </Link>

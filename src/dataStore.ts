@@ -54,6 +54,9 @@ export interface SystemSettings {
   supportEmail: string;
   supportPhone: string;
   supportAddress: string;
+  partnerBankName?: string;
+  partnerAccountName?: string;
+  partnerAccountNumber?: string;
 }
 
 export interface Broadcast {
@@ -72,6 +75,9 @@ let cachedSettings: SystemSettings = {
   supportEmail: '',
   supportPhone: '',
   supportAddress: '',
+  partnerBankName: 'Opay',
+  partnerAccountName: 'VIA Global',
+  partnerAccountNumber: '1023456789',
 };
 let cachedBroadcasts: Broadcast[] = [];
 let cachedQuotes: Quote[] = [];
@@ -101,6 +107,9 @@ onSnapshot(doc(db, 'settings', 'general'), (snap) => {
       supportEmail: '',
       supportPhone: '',
       supportAddress: '',
+      partnerBankName: 'Opay',
+      partnerAccountName: 'VIA Global',
+      partnerAccountNumber: '1023456789',
     };
   }
   window.dispatchEvent(new Event('lumina_store_updated'));
@@ -455,3 +464,4 @@ export const dataStore = {
       .catch(err => handleFirestoreError(err, OperationType.DELETE, 'gallery/' + id));
   }
 };
+

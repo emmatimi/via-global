@@ -23,7 +23,7 @@ export function Testimonials() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
         <div className="text-center max-w-3xl mx-auto mb-16">
            <div className="text-[10px] uppercase tracking-widest font-bold text-gold-500 mb-4">Transformed Lives</div>
-           <h2 className="text-3xl font-serif italic text-soft-white leading-tight">Voices of the Community</h2>
+           <h2 className="community-title text-3xl font-serif italic text-soft-white leading-tight">Voices of the Community</h2>
         </div>
 
         {list.length === 0 ? (
@@ -39,10 +39,10 @@ export function Testimonials() {
                  whileInView={{ opacity: 1, y: 0 }}
                  viewport={{ once: true }}
                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                 className="bg-white/5 p-5 rounded-lg border border-white/10 relative hover:bg-white/10 transition-colors flex flex-col justify-between items-center text-center"
+                 className="testimonial-card bg-white/5 p-5 rounded-lg border border-white/10 relative overflow-hidden hover:bg-white/10 transition-colors flex flex-col justify-between items-center text-center"
                >
-                 <Quote className="absolute top-5 right-5 w-8 h-8 text-white/5" />
-                 <p className="text-white/70 leading-relaxed mb-6 relative z-10 font-serif italic text-xs md:text-[13px]">
+                 <Quote className="testimonial-quote-icon pointer-events-none absolute top-4 right-5 z-0 w-8 h-8 text-gold-500/15" />
+                 <p className="community-quote-text text-white/70 leading-relaxed mb-6 relative z-10 font-serif italic text-xs md:text-[13px]">
                    "{testimonial.quote}"
                  </p>
                  <div className="flex items-center justify-center gap-3 mt-auto pt-2 border-t border-white/5 w-full">
@@ -68,3 +68,5 @@ export function Testimonials() {
     </section>
   );
 }
+
+

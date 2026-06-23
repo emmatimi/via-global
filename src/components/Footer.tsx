@@ -1,6 +1,6 @@
 import ministryLogo from '../../assets/via-ministry-logo-web.png';
 import { Mail, Phone, MapPin, Instagram, Facebook, Youtube, Twitter, Send } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { publicDataStore } from '../publicDataStore';
 
@@ -24,6 +24,8 @@ const quickLinks = [
 
 export function Footer() {
   const [settings, setSettings] = useState(() => publicDataStore.getSettings());
+  const location = useLocation();
+  const isActiveLink = (href: string) => href === '/' ? location.pathname === '/' : location.pathname === href || location.pathname.startsWith(href + '/');
 
   useEffect(() => {
     const handleUpdate = () => {
@@ -50,16 +52,16 @@ export function Footer() {
               Raising light, faith, and purpose in this generation. Join us on this transformative journey of knowing Him and making Him known.
             </p>
             <div className="flex items-center gap-4">
-              <a href="https://www.instagram.com/viaglobal/" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center hover:bg-gold-500 hover:text-navy-900 transition-all text-white/50">
+              <a href="https://www.instagram.com/viaglobal/" target="_blank" rel="noopener noreferrer" className="footer-social-link w-8 h-8 rounded-full border border-white/10 flex items-center justify-center hover:bg-gold-500 hover:text-navy-900 transition-all text-white/50">
                 <Instagram className="w-3.5 h-3.5" />
               </a>
-              <a href="https://youtube.com/@viaglobaltv?si=cr8NgUSxaVP_-l3n" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center hover:bg-gold-500 hover:text-navy-900 transition-all text-white/50">
+              <a href="https://youtube.com/@viaglobaltv?si=cr8NgUSxaVP_-l3n" target="_blank" rel="noopener noreferrer" className="footer-social-link w-8 h-8 rounded-full border border-white/10 flex items-center justify-center hover:bg-gold-500 hover:text-navy-900 transition-all text-white/50">
                 <Youtube className="w-3.5 h-3.5" />
               </a>
-              <a href="https://www.facebook.com/VIAglobal01" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center hover:bg-gold-500 hover:text-navy-900 transition-all text-white/50">
+              <a href="https://www.facebook.com/VIAglobal01" target="_blank" rel="noopener noreferrer" className="footer-social-link w-8 h-8 rounded-full border border-white/10 flex items-center justify-center hover:bg-gold-500 hover:text-navy-900 transition-all text-white/50">
                 <Facebook className="w-3.5 h-3.5" />
               </a>
-              <a href="https://twitter.com/viaglobal" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center hover:bg-gold-500 hover:text-navy-900 transition-all text-white/50">
+              <a href="https://twitter.com/viaglobal" target="_blank" rel="noopener noreferrer" className="footer-social-link w-8 h-8 rounded-full border border-white/10 flex items-center justify-center hover:bg-gold-500 hover:text-navy-900 transition-all text-white/50">
                 <Twitter className="w-3.5 h-3.5" />
               </a>
             </div>
@@ -70,7 +72,7 @@ export function Footer() {
             <ul className="space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.name}>
-                  <Link to={link.href} className="text-white/60 hover:text-gold-500 text-xs font-bold uppercase tracking-widest transition-colors">
+                  <Link to={link.href} className={`footer-quick-link text-xs font-bold uppercase tracking-widest transition-colors ${isActiveLink(link.href) ? 'text-gold-500 footer-link-active' : 'text-white/60 hover:text-gold-500'}`}>
                     {link.name}
                   </Link>
                 </li>
@@ -117,7 +119,7 @@ export function Footer() {
                 href="https://whatsapp.com/channel/0029VbB5Lil5vKABvmky3f2g" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-emerald-400 hover:text-white transition-colors"
+                className="footer-whatsapp-link inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-emerald-400 hover:text-white transition-colors"
               >
                 <WhatsAppIcon className="w-4 h-4" />
                 Follow our WhatsApp Channel ↗
@@ -126,7 +128,7 @@ export function Footer() {
                 href="https://t.me/viaglobalfire" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-[#0088cc] hover:text-white transition-colors"
+                className="footer-telegram-link inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-[#0088cc] hover:text-white transition-colors"
               >
                 <Send className="w-4 h-4" />
                 Join our Telegram Group ↗
@@ -148,3 +150,4 @@ export function Footer() {
     </footer>
   );
 }
+

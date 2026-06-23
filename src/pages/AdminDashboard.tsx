@@ -882,12 +882,12 @@ export function AdminDashboard() {
   // RENDER SECURITY DOOR IF UNAUTHENTICATED
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-navy-950 flex items-center justify-center p-4 relative pt-24 pb-12">
+      <div className="admin-login-screen min-h-screen bg-navy-950 flex items-center justify-center p-4 relative pt-24 pb-12">
         <div className="absolute inset-0 bg-gradient-radial from-gold-500/5 to-transparent pointer-events-none"></div>
         <motion.div 
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="w-full max-w-md bg-navy-900 border border-white/10 rounded-2xl p-8 shadow-2xl space-y-6 relative z-10"
+          className="admin-login-card w-full max-w-md bg-navy-900 border border-white/10 rounded-2xl p-8 shadow-2xl space-y-6 relative z-10"
         >
           <div className="text-center space-y-3">
             <div className="w-12 h-12 bg-gold-500/10 border border-gold-500/20 text-gold-500 rounded-full flex items-center justify-center mx-auto mb-2">
@@ -961,7 +961,7 @@ export function AdminDashboard() {
   ] as const;
 
   return (
-    <div className="flex min-h-screen bg-navy-900 border-t border-white/5 pt-20">
+    <div className="admin-shell flex min-h-screen bg-navy-900 border-t border-white/5 pt-20 lg:pl-64">
       {/* Mobile Sidebar Overlay */}
       {mobileMenuOpen && (
         <div 
@@ -995,7 +995,7 @@ export function AdminDashboard() {
       )}
 
       {/* Sidebar */}
-      <aside className={`fixed lg:static inset-y-0 left-0 z-50 w-64 bg-navy-900 border-r border-white/10 flex flex-col transform transition-transform duration-300 ease-in-out ${
+      <aside className={`admin-sidebar fixed inset-y-0 left-0 z-50 w-64 bg-navy-900 border-r border-white/10 flex flex-col transform transition-transform duration-300 ease-in-out lg:top-20 lg:bottom-0 ${
         mobileMenuOpen ? 'translate-x-0 pt-20 lg:pt-0' : '-translate-x-full lg:translate-x-0'
       }`}>
         <div className="p-6 flex items-center justify-between">
@@ -1041,7 +1041,7 @@ export function AdminDashboard() {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col min-h-screen lg:h-auto overflow-hidden">
+      <main className="admin-main flex-1 flex flex-col min-h-screen lg:min-h-[calc(100vh-5rem)] min-w-0 overflow-hidden">
         {/* Top Header */}
         <header className="h-16 border-b border-white/10 flex items-center justify-between px-6 lg:px-8 bg-white/5 shrink-0">
           <div className="flex items-center gap-4 lg:hidden">
@@ -1064,7 +1064,7 @@ export function AdminDashboard() {
         </header>
 
         {/* Dynamic Content Pane */}
-        <div className="flex-1 p-6 lg:p-10 overflow-y-auto">
+        <div className="admin-content flex-1 p-6 lg:p-10 overflow-y-auto">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab + storeTick}
@@ -1647,6 +1647,9 @@ function SettingsPane({
   const [supportEmail, setSupportEmail] = useState(currentSettings.supportEmail || 'hello@viaglobal.org');
   const [supportPhone, setSupportPhone] = useState(currentSettings.supportPhone || '+1 (800) 555-LIFE');
   const [supportAddress, setSupportAddress] = useState(currentSettings.supportAddress || '123 Horizon Avenue, New York');
+  const [partnerBankName, setPartnerBankName] = useState(currentSettings.partnerBankName || 'Opay');
+  const [partnerAccountName, setPartnerAccountName] = useState(currentSettings.partnerAccountName || 'VIA Global');
+  const [partnerAccountNumber, setPartnerAccountNumber] = useState(currentSettings.partnerAccountNumber || '1023456789');
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
@@ -1654,7 +1657,10 @@ function SettingsPane({
       orgName,
       supportEmail,
       supportPhone,
-      supportAddress
+      supportAddress,
+      partnerBankName,
+      partnerAccountName,
+      partnerAccountNumber
     });
     handleAction('System organization configurations updated and saved successfully!');
   };
@@ -1724,7 +1730,51 @@ function SettingsPane({
                 className="w-full bg-black/20 border border-white/10 px-4 py-3 rounded-sm text-sm text-white focus:outline-none focus:border-gold-500"
               />
             </div>
+            <div className="border-t border-white/10 pt-5 space-y-4">
+              <div>
+                <h5 className="text-xs font-bold uppercase tracking-widest text-gold-500">Partner With Us Bank Details</h5>
+                <p className="text-[10px] text-white/40 mt-1">These details appear in the public Partner with the Vision section.</p>
+              </div>
 
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="text-[10px] uppercase tracking-widest font-bold text-white/50">Bank Name</label>
+                  <input
+                    type="text"
+                    required
+                    value={partnerBankName}
+                    onChange={(e) => setPartnerBankName(e.target.value)}
+                    className="w-full bg-black/20 border border-white/10 px-4 py-3 rounded-sm text-sm text-white focus:outline-none focus:border-gold-500"
+                    placeholder="e.g. Opay"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-[10px] uppercase tracking-widest font-bold text-white/50">Account Name</label>
+                  <input
+                    type="text"
+                    required
+                    value={partnerAccountName}
+                    onChange={(e) => setPartnerAccountName(e.target.value)}
+                    className="w-full bg-black/20 border border-white/10 px-4 py-3 rounded-sm text-sm text-white focus:outline-none focus:border-gold-500"
+                    placeholder="e.g. VIA Global"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-[10px] uppercase tracking-widest font-bold text-white/50">Account Number</label>
+                <input
+                  type="text"
+                  required
+                  inputMode="numeric"
+                  value={partnerAccountNumber}
+                  onChange={(e) => setPartnerAccountNumber(e.target.value)}
+                  className="w-full bg-black/20 border border-white/10 px-4 py-3 rounded-sm text-sm text-white focus:outline-none focus:border-gold-500"
+                  placeholder="e.g. 1023456789"
+                />
+              </div>
+            </div>
             <button 
               type="submit"
               className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white text-[10px] font-bold uppercase tracking-widest transition-colors rounded-sm"
@@ -2949,3 +2999,4 @@ function GalleryPane({ handleAction, showConfirm, onOpenGalleryModal }: GalleryP
     </div>
   );
 }
+

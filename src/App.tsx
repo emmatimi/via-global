@@ -19,9 +19,9 @@ export default function App() {
   const location = useLocation();
 
   return (
-    <div className="min-h-screen bg-navy-900 text-soft-white selection:bg-gold-500 selection:text-navy-900 relative overflow-hidden font-sans flex flex-col">
-      <div className="fixed top-[-10%] right-[-5%] w-[400px] h-[400px] bg-gold-500/10 rounded-full blur-[120px] pointer-events-none z-0"></div>
-      <div className="fixed bottom-[-10%] left-[-5%] w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[150px] pointer-events-none z-0"></div>
+    <div className="app-shell min-h-screen bg-navy-900 text-soft-white selection:bg-gold-500 selection:text-navy-900 relative overflow-hidden font-sans flex flex-col">
+      <div className="theme-ambient theme-ambient-gold fixed top-[-10%] right-[-5%] w-[400px] h-[400px] bg-gold-500/10 rounded-full blur-[120px] pointer-events-none z-0"></div>
+      <div className="theme-ambient theme-ambient-blue fixed bottom-[-10%] left-[-5%] w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[150px] pointer-events-none z-0"></div>
       
       <Navigation />
       <main className="relative flex-col flex w-full flex-grow">
@@ -50,7 +50,9 @@ export default function App() {
           </Routes>
         </Suspense>
       </main>
-      <Footer />
+      {location.pathname !== '/admin' && <Footer />}
     </div>
   );
 }
+
+

@@ -78,14 +78,14 @@ export function Hero() {
   const currentQuote = quotes[currentIndex];
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-navy-950">
+    <section className="site-hero relative min-h-screen flex items-center overflow-hidden bg-navy-950">
       {/* Background Image & Overlays */}
       <div 
-        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-25 mix-blend-overlay"
+        className="site-hero-bg absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-25 mix-blend-overlay"
         style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1507692049790-de58290a4334?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80")' }}
       >
-        <div className="absolute inset-0 bg-navy-950/80" />
-        <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/40 to-transparent" />
+        <div className="site-hero-tint absolute inset-0 bg-navy-950/80" />
+        <div className="site-hero-gradient absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/40 to-transparent" />
       </div>
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 pt-24 pb-16 lg:py-0">
@@ -147,10 +147,10 @@ export function Hero() {
                       exit="exit"
                       className="space-y-5"
                     >
-                      <p className="text-xs sm:text-sm md:text-base text-gold-200/80 italic font-serif leading-relaxed">
+                      <p className="hero-quote-text text-xs sm:text-sm md:text-base text-gold-200/80 italic font-serif leading-relaxed">
                         “{currentQuote.text}”
                       </p>
-                      <p className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.15em] text-white/40">
+                      <p className="hero-quote-author text-[10px] sm:text-xs font-bold uppercase tracking-[0.15em] text-white/40">
                         — {currentQuote.author}
                       </p>
                     </motion.div>
@@ -203,3 +203,5 @@ export function Hero() {
     </section>
   );
 }
+
+

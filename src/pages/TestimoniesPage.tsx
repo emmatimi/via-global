@@ -111,12 +111,12 @@ export function TestimoniesPage() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: idx * 0.05 }}
-                    className="bg-white/5 border border-white/10 p-4 md:p-5 rounded-lg relative hover:bg-white/10 transition-all flex flex-col justify-between"
+                    className="testimony-page-card bg-white/5 border border-white/10 p-4 md:p-5 rounded-lg relative overflow-hidden hover:bg-white/10 transition-all flex flex-col justify-between"
                   >
-                    <QuoteIcon className="absolute top-4 right-4 w-8 h-8 text-white/5 pointer-events-none" />
+                    <QuoteIcon className="testimony-page-quote-icon absolute top-3 right-4 w-8 h-8 text-white/5 pointer-events-none" />
                     
                     <div className="space-y-4 relative z-10 flex flex-col h-full justify-between">
-                      <p className="text-white/75 leading-relaxed font-serif italic text-xs md:text-[13px] whitespace-pre-line">
+                      <p className="testimony-page-quote-text text-white/75 leading-relaxed font-serif italic text-xs md:text-[13px] whitespace-pre-line">
                         "{item.quote}"
                       </p>
                       
@@ -216,3 +216,4 @@ export function TestimoniesPage() {
     </div>
   );
 }
+

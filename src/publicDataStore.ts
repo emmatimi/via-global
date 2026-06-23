@@ -51,6 +51,9 @@ export interface SystemSettings {
   supportEmail: string;
   supportPhone: string;
   supportAddress: string;
+  partnerBankName?: string;
+  partnerAccountName?: string;
+  partnerAccountNumber?: string;
 }
 
 let cachedPrograms: FlagshipProgram[] = [];
@@ -60,6 +63,9 @@ let cachedSettings: SystemSettings = {
   supportEmail: '',
   supportPhone: '',
   supportAddress: '',
+  partnerBankName: 'Opay',
+  partnerAccountName: 'VIA Global',
+  partnerAccountNumber: '1023456789',
 };
 let cachedQuotes: Quote[] = [];
 let cachedEvents: MinistryEvent[] = [];
@@ -127,6 +133,9 @@ async function initPublicRealtime() {
           supportEmail: '',
           supportPhone: '',
           supportAddress: '',
+          partnerBankName: 'Opay',
+          partnerAccountName: 'VIA Global',
+          partnerAccountNumber: '1023456789',
         };
       }
       dispatchUpdate();
@@ -213,3 +222,4 @@ export const publicDataStore = {
     return newConvert;
   }
 };
+
