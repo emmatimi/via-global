@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
@@ -39,6 +39,33 @@ import { dataStore, FlagshipProgram, Registration, SystemSettings, Quote, Conver
 import { Message, Event as MinistryEvent, Testimonial, Comment } from '../types';
 
 type TabType = 'dashboard' | 'programs' | 'teachings' | 'broadcast' | 'quotes' | 'converts' | 'events' | 'testimonials' | 'comments' | 'gallery' | 'settings';
+
+const ADMIN_AUTH_KEY = 'lumina_admin_authenticated';
+const ADMIN_EMAIL_KEY = 'lumina_admin_email';
+const ADMIN_LAST_ACTIVITY_KEY = 'lumina_admin_last_activity';
+const ADMIN_INACTIVITY_TIMEOUT_MS = 24 * 60 * 60 * 1000;
+const ADMIN_ACTIVITY_WRITE_INTERVAL_MS = 60 * 1000;
+
+function getAdminLastActivity() {
+  const raw = localStorage.getItem(ADMIN_LAST_ACTIVITY_KEY);
+  const timestamp = raw ? Number(raw) : 0;
+  return Number.isFinite(timestamp) ? timestamp : 0;
+}
+
+function markAdminActivity() {
+  localStorage.setItem(ADMIN_LAST_ACTIVITY_KEY, Date.now().toString());
+}
+
+function clearAdminSession() {
+  localStorage.removeItem(ADMIN_AUTH_KEY);
+  localStorage.removeItem(ADMIN_EMAIL_KEY);
+  localStorage.removeItem(ADMIN_LAST_ACTIVITY_KEY);
+}
+
+function hasAdminSessionExpired() {
+  const lastActivity = getAdminLastActivity();
+  return lastActivity > 0 && Date.now() - lastActivity >= ADMIN_INACTIVITY_TIMEOUT_MS;
+}
 
 // PROGRAM MODAL FORM (Multi-functional: handles both Create and Edit)
 interface ProgramModalProps {
@@ -620,10 +647,21 @@ export function AdminDashboard() {
 
   useEffect(() => {
     const checkAuthStatus = () => {
-      const isLocalAuth = localStorage.getItem('lumina_admin_authenticated') === 'true';
+      const isLocalAuth = localStorage.getItem(ADMIN_AUTH_KEY) === 'true';
       const fUser = auth.currentUser;
       
+      if ((fUser || isLocalAuth) && hasAdminSessionExpired()) {
+        void signOut(auth).catch((err) => console.error('Firebase signOut error', err));
+        clearAdminSession();
+        setIsAuthenticated(false);
+        setAuthLoading(false);
+        return;
+      }
+
       if (fUser || isLocalAuth) {
+        if (!getAdminLastActivity()) {
+          markAdminActivity();
+        }
         setIsAuthenticated(true);
       } else {
         setIsAuthenticated(false);
@@ -658,8 +696,9 @@ export function AdminDashboard() {
       await signInWithEmailAndPassword(auth, targetEmail, password);
       handleAction('Signed in successfully!');
       
-      localStorage.setItem('lumina_admin_authenticated', 'true');
-      localStorage.setItem('lumina_admin_email', targetEmail);
+      localStorage.setItem(ADMIN_AUTH_KEY, 'true');
+      localStorage.setItem(ADMIN_EMAIL_KEY, targetEmail);
+      markAdminActivity();
       setIsAuthenticated(true);
       setLoginError('');
     } catch (err: any) {
@@ -678,18 +717,79 @@ export function AdminDashboard() {
     }
   };
 
-  const handleSignOut = async () => {
+  const handleSignOut = useCallback(async () => {
     try {
       await signOut(auth);
     } catch (err) {
       console.error('Firebase signOut error', err);
     }
-    localStorage.removeItem('lumina_admin_authenticated');
-    localStorage.removeItem('lumina_admin_email');
+    clearAdminSession();
     setIsAuthenticated(false);
     setEmail('');
     setPassword('');
-  };
+  }, []);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      return;
+    }
+
+    let inactivityTimer: number | undefined;
+
+    const endExpiredSession = () => {
+      void handleSignOut();
+    };
+
+    const scheduleLogout = () => {
+      if (inactivityTimer) {
+        window.clearTimeout(inactivityTimer);
+      }
+
+      const lastActivity = getAdminLastActivity();
+      const remainingMs = ADMIN_INACTIVITY_TIMEOUT_MS - (Date.now() - lastActivity);
+
+      if (remainingMs <= 0) {
+        endExpiredSession();
+        return;
+      }
+
+      inactivityTimer = window.setTimeout(endExpiredSession, remainingMs);
+    };
+
+    const refreshActivity = () => {
+      if (hasAdminSessionExpired()) {
+        endExpiredSession();
+        return;
+      }
+
+      const lastActivity = getAdminLastActivity();
+      if (Date.now() - lastActivity < ADMIN_ACTIVITY_WRITE_INTERVAL_MS) {
+        return;
+      }
+
+      markAdminActivity();
+      scheduleLogout();
+    };
+
+    if (!getAdminLastActivity()) {
+      markAdminActivity();
+    }
+    scheduleLogout();
+
+    const activityEvents = ['click', 'keydown', 'mousemove', 'scroll', 'touchstart'] as const;
+    activityEvents.forEach((eventName) => {
+      window.addEventListener(eventName, refreshActivity, { passive: true });
+    });
+
+    return () => {
+      if (inactivityTimer) {
+        window.clearTimeout(inactivityTimer);
+      }
+      activityEvents.forEach((eventName) => {
+        window.removeEventListener(eventName, refreshActivity);
+      });
+    };
+  }, [handleSignOut, isAuthenticated]);
 
   // Submit handers to save to dynamic localStorage database store
   const handleProgramSubmit = (data: Omit<FlagshipProgram, 'id' | 'regs'> & { id?: string }) => {
