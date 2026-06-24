@@ -1463,7 +1463,7 @@ function TeachingsPane({ onOpenModal, onEditTeaching, onDeleteTeaching }: Teachi
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <h3 className="text-xl font-serif italic text-soft-white">Manage Teachings Vault</h3>
+        <h3 className="text-xl font-serif italic text-soft-white">Manage Teachings Bank</h3>
         <button 
           onClick={onOpenModal}
           className="px-4 py-2 bg-gradient-to-tr from-gold-500 to-gold-400 hover:to-gold-500 text-navy-900 font-bold uppercase text-[10px] tracking-widest flex items-center gap-2 rounded-sm transition-colors"
@@ -1634,7 +1634,7 @@ function BroadcastPane({ handleAction }: { handleAction: (msg: string) => void }
   );
 }
 
-// 5. SYSTEM SETTINGS COMPONENT (Fully Functional)
+// 5. SYSTEM SETTINGS COMPONENT 
 function SettingsPane({ 
   handleAction, 
   showConfirm 
@@ -1686,7 +1686,7 @@ function SettingsPane({
           
           <form className="space-y-4" onSubmit={handleSave}>
             <div className="space-y-2">
-              <label className="text-[10px] uppercase tracking-widest font-bold text-white/50">Organization/Church Name</label>
+              <label className="text-[10px] uppercase tracking-widest font-bold text-white/50">Ministry Name</label>
               <input 
                 type="text" 
                 required
@@ -1721,7 +1721,7 @@ function SettingsPane({
             </div>
 
             <div className="space-y-2">
-              <label className="text-[10px] uppercase tracking-widest font-bold text-white/50">Office Address / Headquarters Location</label>
+              <label className="text-[10px] uppercase tracking-widest font-bold text-white/50">Ministry Location</label>
               <input 
                 type="text" 
                 required
