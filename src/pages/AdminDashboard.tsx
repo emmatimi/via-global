@@ -1503,7 +1503,7 @@ function TeachingsPane({ onOpenModal, onEditTeaching, onDeleteTeaching }: Teachi
           </div>
         ))}
         {currentTeachings.length === 0 && (
-          <div className="col-span-full py-12 text-center text-xs text-white/30 border border-white/10 rounded-xl bg-white/5">No teachings registered in database. Add teachings to share.</div>
+          <div className="col-span-full py-12 text-center text-xs text-white/30 border border-white/10 rounded-xl bg-white/5">No teachings registered. Add teachings to share.</div>
         )}
       </div>
     </div>
@@ -1782,22 +1782,6 @@ function SettingsPane({
               Save Changes
             </button>
           </form>
-        </section>
-
-        <section className="bg-white/5 border border-white/10 rounded-xl p-6 sm:p-8 space-y-6">
-          <h4 className="text-sm font-bold text-red-400 uppercase tracking-widest">Danger Zone</h4>
-          <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <div>
-              <div className="text-xs font-bold text-white/80 mb-1">Restore Default Database Seeding</div>
-              <div className="text-[10px] text-white/50">Clears all custom additions, registrations, and resets application cache state instantly.</div>
-            </div>
-            <button 
-              onClick={handleClearCache}
-              className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white text-[10px] font-bold uppercase tracking-widest rounded-sm transition-colors whitespace-nowrap"
-            >
-              Clear & Reset All
-            </button>
-          </div>
         </section>
       </div>
     </div>
